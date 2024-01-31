@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Act1Modularized_ForB2Test {
 
@@ -15,17 +16,19 @@ public class Act1Modularized_ForB2Test {
 
         String inData[][] = new String[100][3];
         String outData[][] = new String[100][4];
-
+            for (int i = 0; i < outData.length; i++) {
+        Arrays.fill(outData[i], "");
+    }
         generarOperacionesEntrada();
         leerOperaciones(inData);
         calcularOperaciones(inData, outData);
-        //escribirFileOutput(outData);
+        escribirFileOutput(outData);
     }
 
     public static void generarOperacionesEntrada() {
         try {
             Random rand = new Random();
-            Formatter escribir = new Formatter("operaEntrada.csv");
+            Formatter escribir = new Formatter("operaEntrada.csv", "UTF-8",Locale.US);
             String operaArray[] = {"suma", "resta", "mult", "div", "pot", "raiz"};
             for (int i = 0; i < 100; i++) {
                 //String saludo = "Holaaa;div";
@@ -70,10 +73,12 @@ public class Act1Modularized_ForB2Test {
 
             double n1 = Double.valueOf(inData[i][1]);
             double n2 = Double.valueOf(inData[i][2]);
-            for (int j = 0; j < inData[i].length; j++) {
-                outData[i][j] = inData[i][j];
+            
+                outData[i][0] = inData[i][0];
+                outData[i][1] = inData[i][1];
+                outData[i][2] = inData[i][2];
         
-            }
+           
 
             switch (inData[i][0]) {
                 case "suma":
@@ -106,6 +111,7 @@ public class Act1Modularized_ForB2Test {
                     escribo2.format("%s;", outData[i][j]);
 
                 }
+                escribo2.format("\n");
             }
             //                     escribo2.format("%s;%s;%s;%s", outData[i][j], outData[i][1], outData[i][2], outData[i][3]);
 
