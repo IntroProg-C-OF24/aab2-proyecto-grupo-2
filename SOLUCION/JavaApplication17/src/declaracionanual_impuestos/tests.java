@@ -21,7 +21,7 @@ public class tests{
     }
     
     public static void main(String[] args) throws IOException {
-        String[][] linea;
+        String[][] linea = null;
         
         try {
                 for (int i = 0;linea[i] != null ; i++) {
