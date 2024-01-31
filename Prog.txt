@@ -1,0 +1,13 @@
+Prog
+
+Formatter
+
+metodo Main
+generarArchivo()
+escribirResultados()
+
+metodo generarArchivo
+Generar numeros aleatorios con un for y colocar hacia un archivo
+
+metodo escribirResultados
+Escribir archivo

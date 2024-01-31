@@ -1,0 +1,10 @@
+Martes 9 a 11 → Ense;ara sobre el Examen
+
+Miercoles 7 de 9 a 12 → Teorico y Practico FC
+|
+|_ 2 ultimas horas practica y ensayo examen
+
+
+Examen Prog:
+
+Proyecto puede usar bucles for en vez de bucles while → nivel avanzado (Condicion leer.hasNext() )
