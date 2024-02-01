@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -33,12 +35,16 @@ public class DeclaracionAnual_Impuestos {
     static BufferedReader leer;
 
     static BufferedWriter escribir;
-
+    static DecimalFormat df;
     static {
         try {
             leer = new BufferedReader(new FileReader("Tablas Impositivas 2023.csv"));
             escribir = new BufferedWriter(new FileWriter("Declaracion-Impuesto del usuario.csv"));
-        } catch (IOException e) {
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+             df = new DecimalFormat("#.##", symbols);
+        }
+        
+        catch (IOException e) {
             e.getMessage();
         }
     }
@@ -243,37 +249,37 @@ public class DeclaracionAnual_Impuestos {
         try {
             escribir.write("Estimado/a;" + nombre);
             escribir.newLine();
-            escribir.write("Total de ingresos:;" + totalIngresos);
+            escribir.write("Total de ingresos:;" + df.format(totalIngresos));
             escribir.newLine();
-            escribir.write("Total de deducciones:;" + totalDeducciones);
+            escribir.write("Total de deducciones:;" + df.format(totalDeducciones));
             escribir.newLine();
             escribir.write("-------------------------------------------------");
             escribir.newLine();
-            escribir.write("Sus ingresos netos son:;" + baseImponible);
+            escribir.write("Sus ingresos netos son:;" + df.format(baseImponible));
             escribir.newLine();
             escribir.write("*");
             escribir.newLine();
-            escribir.write("Porcentaje que usted pagara de impuesto:;" + impExcedente);
+            escribir.write("Porcentaje que usted pagara de impuesto:;" + df.format(impExcedente));
             escribir.newLine();
             escribir.write("-------------------------------------------------");
             escribir.newLine();
-            escribir.write("Impuesto de Fraccion Excedente a pagar:;" + impExcedentePagar);
+            escribir.write("Impuesto de Fraccion Excedente a pagar:;" + df.format(impExcedentePagar));
             escribir.newLine();
-            escribir.write("Impuesto de Fraccion Basica a pagar:;" + impBasico);
+            escribir.write("Impuesto de Fraccion Basica a pagar:;" + df.format(impBasico));
             escribir.newLine();
             escribir.write("");
             escribir.newLine();
-            escribir.write("Total de Impuesto a pagar:;" + impTotal);
+            escribir.write("Total de Impuesto a pagar:;" + df.format(impTotal));
             escribir.newLine();
             escribir.write("-------------------------------------------------");
             escribir.newLine();
             escribir.write("Informacion adicional:");
             escribir.newLine();
-            escribir.write("Aporte al IESS:;" + iess);
+            escribir.write("Aporte al IESS:;" + df.format(iess));
             escribir.newLine();
-            escribir.write("Credito tributario o devolucion (por dividendos Corporativos):;" + retornoImpuestos + "$");
+            escribir.write("Credito tributario o devolucion (por dividendos Corporativos):;" + df.format(retornoImpuestos) + "$");
             escribir.newLine();
-            escribir.write("Devolucion por Excedente de impuestos: (Ingresos netos negativos); $" + refund);
+            escribir.write("Devolucion por Excedente de impuestos: (Ingresos netos negativos); $" + df.format(refund));
             escribir.newLine();
             escribir.write("-------------------------------------------------");
             escribir.newLine();
