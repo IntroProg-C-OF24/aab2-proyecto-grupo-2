@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,12 +22,13 @@ public class DeclaracionAnual_Impuestos {
     static double maxDeductRate = 0.18;
     static boolean earnsDividends;
     static boolean showTaxTable;
-    static double[][] facturas = new double[12][6];
-    static double[] sueldos = new double[12];
+
     static double totalIngresos = 0;
     static double totalDeducciones = 0;
     static double impBasico, impExcedente, impExcedentePagar, impTotal;
     static int año = 2023;
+    static double[][] facturas = new double[12][6];
+    static double[] sueldos = new double[12];
 
     static BufferedReader leer;
 
@@ -35,15 +37,16 @@ public class DeclaracionAnual_Impuestos {
     static {
         try {
             leer = new BufferedReader(new FileReader("Tablas Impositivas 2023.csv"));
-            escribir = new BufferedWriter(new FileWriter("Declaracion-Impuesto del usuario.txt"));
+            escribir = new BufferedWriter(new FileWriter("Declaracion-Impuesto del usuario.csv"));
         } catch (IOException e) {
             e.getMessage();
         }
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
+        Scanner scanner = new Scanner(System.in, "UTF-8");
+         
+        
         //File f = new File("Tablas Impositivas 2023.csv");
         System.out.println("Ingresa tu nombre: ");
         String nombre = scanner.nextLine();
@@ -63,12 +66,13 @@ public class DeclaracionAnual_Impuestos {
 
         System.out.println("Obtiene usted ingresos por pertenecer a alguna sociedad o corporacion que le distribuye dividendos o utilidades? (true o false)");
         earnsDividends = scanner.nextBoolean();
+        scanner.nextLine(); //Limpiar Scanner para leer Strings en el metodo debajo
         double retornoImpuestos = 0;
         if (earnsDividends) {
             System.out.println("Cuanto $ en dividendos usted recibe anualmente");
-            double dividends = scanner.nextDouble();
+            double dividends = Double.parseDouble(scanner.nextLine());
             System.out.println("Cual es la base impositiva ( en %) que paga su sociedad por distribuir cada dividendo?");
-            double dividendsTaxRate = scanner.nextDouble();
+            double dividendsTaxRate = Double.parseDouble(scanner.nextLine());
             retornoImpuestos = dividends * (dividendsTaxRate * 0.01);
         }
 
@@ -237,39 +241,39 @@ public class DeclaracionAnual_Impuestos {
 
     public static void guardarReporte(String nombre, double totalIngresos, double totalDeducciones, double baseImponible, double impExcedentePagar, double impExcedente, double impBasico, double impTotal, double iess, double retornoImpuestos, double refund) {
         try {
-            escribir.write("Estimado/a," + nombre);
+            escribir.write("Estimado/a;" + nombre);
             escribir.newLine();
-            escribir.write("Total de ingresos:," + totalIngresos);
+            escribir.write("Total de ingresos:;" + totalIngresos);
             escribir.newLine();
-            escribir.write("Total de deducciones:," + totalDeducciones);
+            escribir.write("Total de deducciones:;" + totalDeducciones);
             escribir.newLine();
             escribir.write("-------------------------------------------------");
             escribir.newLine();
-            escribir.write("Sus ingresos netos son:," + baseImponible);
+            escribir.write("Sus ingresos netos son:;" + baseImponible);
             escribir.newLine();
             escribir.write("*");
             escribir.newLine();
-            escribir.write("Porcentaje que usted pagara de impuesto:," + impExcedente);
+            escribir.write("Porcentaje que usted pagara de impuesto:;" + impExcedente);
             escribir.newLine();
             escribir.write("-------------------------------------------------");
             escribir.newLine();
-            escribir.write("Impuesto de Fraccion Excedente a pagar:," + impExcedentePagar);
+            escribir.write("Impuesto de Fraccion Excedente a pagar:;" + impExcedentePagar);
             escribir.newLine();
-            escribir.write("Impuesto de Fraccion Basica a pagar:," + impBasico);
+            escribir.write("Impuesto de Fraccion Basica a pagar:;" + impBasico);
             escribir.newLine();
             escribir.write("");
             escribir.newLine();
-            escribir.write("Total de Impuesto a pagar:," + impTotal);
+            escribir.write("Total de Impuesto a pagar:;" + impTotal);
             escribir.newLine();
             escribir.write("-------------------------------------------------");
             escribir.newLine();
             escribir.write("Informacion adicional:");
             escribir.newLine();
-            escribir.write("Aporte al IESS:," + iess);
+            escribir.write("Aporte al IESS:;" + iess);
             escribir.newLine();
-            escribir.write("Credito tributario o devolucion (por dividendos Corporativos):," + retornoImpuestos + "$");
+            escribir.write("Credito tributario o devolucion (por dividendos Corporativos):;" + retornoImpuestos + "$");
             escribir.newLine();
-            escribir.write("Devolucion por Excedente de impuestos: (Ingresos netos negativos),$" + refund);
+            escribir.write("Devolucion por Excedente de impuestos: (Ingresos netos negativos); $" + refund);
             escribir.newLine();
             escribir.write("-------------------------------------------------");
             escribir.newLine();
