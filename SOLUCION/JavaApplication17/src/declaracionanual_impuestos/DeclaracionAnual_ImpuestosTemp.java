@@ -17,14 +17,14 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DeclaracionAnual_Impuestos {
+public class DeclaracionAnual_ImpuestosTemp {
 
     static String[] categoria = {"Vivienda", "Educacion", "Alimentacion", "Vestimenta", "Salud", "Turismo"};
     static double iess;
     static double maxDeductRate = 0.18;
     static boolean earnsDividends;
     static boolean showTaxTable;
-
+    static int taxPayerIndex;
     static double totalIngresos = 0;
     static double totalDeducciones = 0;
     static double impBasico, impExcedente, impExcedentePagar, impTotal;
@@ -56,7 +56,7 @@ public class DeclaracionAnual_Impuestos {
         //File f = new File("Tablas Impositivas 2023.csv");
         System.out.println("Ingresa tu nombre: ");
         String nombre = scanner.nextLine();
-        totalIngresos = ingresarSueldos(sueldos);
+        totalIngresos = ingresarSueldos(sueldos, taxpayerIndex);
         totalDeducciones = ingresarFacturas(facturas, categoria, maxDeductRate);
 
         //Test-line: totalDeducciones = 5352.97;
@@ -98,24 +98,25 @@ public class DeclaracionAnual_Impuestos {
         System.out.println("GRACIAS POR USAR NUESTRO SISTEMA :3");
     }
 
-    public static double ingresarSueldos(double sueldos[]) {
-        // Java lee los enteros de un .csv sin problemas
-        try {
-            Scanner income = new Scanner(new File("MonthlyIncome.csv"));
-            for (int mes = 0; mes < 12; mes++) {
-                System.out.println("Ingrese su sueldo del mes " + (mes + 1) + ": ");
-                sueldos[mes] = income.nextDouble();
-                totalIngresos += sueldos[mes];
-                System.out.println("El sueldo de este mes es de: " + sueldos[mes]);
-            }
-            iess = totalIngresos * 0.1145;
-            totalIngresos -= iess;
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DeclaracionAnual_Impuestos.class.getName()).log(Level.SEVERE, null, ex);
+public static double ingresarSueldos(double[][][] sueldos, int taxpayerIndex) {
+    // Java reads integers from a .csv without problems
+    try {
+        Scanner income = new Scanner(new File("MonthlyIncome.csv"));
+        for (int mes = 0; mes < 12; mes++) {
+            System.out.println("Enter your salary for month " + (mes + 1) + ": ");
+            sueldos[taxpayerIndex][mes] = income.nextDouble();
+            totalIngresos += sueldos[taxpayerIndex][mes];
+            System.out.println("The salary for this month is: " + sueldos[taxpayerIndex][mes]);
         }
-
-        return totalIngresos;
+        iess = totalIngresos * 0.1145;
+        totalIngresos -= iess;
+    } catch (FileNotFoundException ex) {
+        Logger.getLogger(DeclaracionAnual_Impuestos.class.getName()).log(Level.SEVERE, null, ex);
     }
+
+    return totalIngresos;
+}
+
 
     public static double ingresarFacturas(double[][] factura, String[] categoria, double maxDeductRate) {
         //Java al leer doubles de un .csv los interpreta primero como Strings, por ello debemos convertirlos
