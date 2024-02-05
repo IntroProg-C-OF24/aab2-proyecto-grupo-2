@@ -56,6 +56,8 @@ public class DeclaracionAnual_Impuestos {
         //File f = new File("Tablas Impositivas 2023.csv");
         System.out.println("Ingresa tu nombre: ");
         String nombre = scanner.nextLine();
+        
+        
         totalIngresos = ingresarSueldos(sueldos);
         totalDeducciones = ingresarFacturas(facturas, categoria, maxDeductRate);
 
