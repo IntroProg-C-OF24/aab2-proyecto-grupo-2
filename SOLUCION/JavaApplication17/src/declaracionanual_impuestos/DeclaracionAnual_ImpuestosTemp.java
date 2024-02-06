@@ -56,7 +56,7 @@ public class DeclaracionAnual_ImpuestosTemp {
         //File f = new File("Tablas Impositivas 2023.csv");
         System.out.println("Ingresa tu nombre: ");
         String nombre = scanner.nextLine();
-        totalIngresos = ingresarSueldos(sueldos, taxpayerIndex);
+    //    totalIngresos = ingresarSueldos(sueldos, taxpayerIndex);
         totalDeducciones = ingresarFacturas(facturas, categoria, maxDeductRate);
 
         //Test-line: totalDeducciones = 5352.97;
@@ -104,8 +104,8 @@ public static double ingresarSueldos(double[][][] sueldos, int taxpayerIndex) {
         Scanner income = new Scanner(new File("MonthlyIncome.csv"));
         for (int mes = 0; mes < 12; mes++) {
             System.out.println("Enter your salary for month " + (mes + 1) + ": ");
-            sueldos[taxpayerIndex][mes] = income.nextDouble();
-            totalIngresos += sueldos[taxpayerIndex][mes];
+           // sueldos[taxpayerIndex][mes] = income.nextDouble();
+            //totalIngresos += sueldos[taxpayerIndex][mes];
             System.out.println("The salary for this month is: " + sueldos[taxpayerIndex][mes]);
         }
         iess = totalIngresos * 0.1145;

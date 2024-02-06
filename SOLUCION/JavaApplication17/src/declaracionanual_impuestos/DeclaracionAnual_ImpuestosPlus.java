@@ -118,7 +118,7 @@ public class DeclaracionAnual_ImpuestosPlus {
         double[] refund = calcRefund(taxPayers, baseImponible);
 
         calcularImpuesto(baseImponible);
-        generarDeclaracion(nombre, totalIngresos, totalDeduccionesArr, baseImponible, impExcedentePagar, impExcedente, impBasico, impTotal, iess, retornoImpuestos, refund, taxPayers);
+        generarDeclaracion(nombre, totalIngresos, totalDeducciones, baseImponible, impExcedentePagar, impExcedente, impBasico, impTotal, iess, retornoImpuestos, refund, taxPayers);
         System.out.println("Desea obtener y guardar su/s reporte de la/s declaracion/es actual/es");
         boolean decision = scanner.nextBoolean();
         if (decision) {
@@ -231,11 +231,11 @@ public class DeclaracionAnual_ImpuestosPlus {
                         totalDeduccionesAux[i] += facturas[mes][cat];
                         System.out.println("El costo de la factura de este mes es de: " + facturas[mes][cat]);
                     }
-                    if (totalDeduccionesAux[i] > 5352.97) {
+                }
+                                    if (totalDeduccionesAux[i] > 5352.97) {
                         totalDeduccionesAux[i] = 5352.97;
                     }
                     totalDeduccionesAux[i] *= maxDeductRate;
-                }
             }
 
         } catch (IOException e) {

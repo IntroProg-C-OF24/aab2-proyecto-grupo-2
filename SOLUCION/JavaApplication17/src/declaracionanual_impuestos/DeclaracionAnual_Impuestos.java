@@ -39,7 +39,7 @@ public class DeclaracionAnual_Impuestos {
     static {
         try {
             leer = new BufferedReader(new FileReader("Tablas Impositivas 2023.csv"));
-            escribir = new BufferedWriter(new FileWriter("Declaracion-Impuesto del usuario.txt"));
+            escribir = new BufferedWriter(new FileWriter("Declaracion-Impuesto del usuario.csv"));
             DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
              df = new DecimalFormat("#.##", symbols);
         }
@@ -255,6 +255,7 @@ public class DeclaracionAnual_Impuestos {
             escribir.newLine();
             escribir.write("Total de deducciones:;" + df.format(totalDeducciones));
             escribir.newLine();
+            
             escribir.write("-------------------------------------------------");
             escribir.newLine();
             escribir.write("Sus ingresos netos son:;" + df.format(baseImponible));

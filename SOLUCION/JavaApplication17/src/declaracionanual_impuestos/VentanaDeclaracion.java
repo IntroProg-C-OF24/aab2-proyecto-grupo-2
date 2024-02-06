@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 /**
@@ -55,6 +56,8 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
     static BufferedWriter escribir;
     static DecimalFormat df;
 
+    static boolean ingresoDatos = false;
+
     static {
         try {
             //leer = new BufferedReader(new FileReader("Tablas Impositivas 2023.csv"));
@@ -80,8 +83,6 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
     private void initComponents() {
 
         labelTitle = new javax.swing.JLabel();
-        textField1 = new java.awt.TextField();
-        nameLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaFactura = new javax.swing.JTextArea();
@@ -94,8 +95,6 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
 
         labelTitle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelTitle.setText("Declaracion del impuesto a la renta");
-
-        nameLabel.setText("Ingresa tu nombre");
 
         jButton1.setText("Generar sueldos y facturas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +121,7 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(284, 284, 284)
                         .addComponent(labelTitle))
@@ -133,21 +132,10 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
                         .addGap(19, 19, 19)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(385, 385, 385)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(31, 31, 31)
-                                        .addComponent(nameLabel)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(477, 477, 477)
-                        .addComponent(buttonTaxTable)
-                        .addGap(93, 93, 93)))
+                            .addComponent(buttonTaxTable)
+                            .addComponent(jButton1))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -157,15 +145,11 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(labelTitle)
-                .addGap(1, 1, 1)
-                .addComponent(nameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(buttonTaxTable))
-                .addGap(46, 46, 46)
+                .addGap(30, 30, 30)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(buttonTaxTable)
+                .addGap(57, 57, 57)
                 .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(274, Short.MAX_VALUE))
         );
@@ -176,41 +160,46 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        String reporte = "";
-        try {
-            try (BufferedReader leer2 = new BufferedReader(new FileReader("Declaracion-Impuesto del usuario.csv"))) {
-                List<String[]> linea = new ArrayList<>();
-                String line;
-                while ((line = leer2.readLine()) != null) {
-                    reporte += line + "\n";
-                    linea.add(reporte.split(";"));
+        if (ingresoDatos == true) {
+            String reporte = "";
+            try {
+                try (BufferedReader leer2 = new BufferedReader(new FileReader("Declaracion-Impuesto del usuario.csv"))) {
+                    List<String[]> linea = new ArrayList<>();
+                    String line;
+                    while ((line = leer2.readLine()) != null) {
+                        reporte += line + "\n";
+                        linea.add(reporte.split(";"));
+                    }
+
+                    for (String[] row : linea) {
+                        for (String cell : row) {
+                            System.out.printf("%s\t", cell);
+
+                        }
+                        System.out.println();
+                    }
+                    leer2.close();
                 }
 
-                for (String[] row : linea) {
-                    for (String cell : row) {
-                        System.out.printf("%s\t", cell);
-                        
-                    }
-                    System.out.println();
-                }
-                leer2.close();
+                System.out.println(reporte);
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(VentanaDeclaracion.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaDeclaracion.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            System.out.println(reporte);
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VentanaDeclaracion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(VentanaDeclaracion.class.getName()).log(Level.SEVERE, null, ex);
+            textAreaFactura.setText(reporte);
+            scrollPane1.add(textAreaFactura);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Debes completar el formulario por consola");
         }
-        
-      
-        textAreaFactura.setText(reporte);
-        scrollPane1.add(textAreaFactura);
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void buttonTaxTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTaxTableActionPerformed
-     
+
         textAreaFactura.setText(getTaxTable(año));
         scrollPane1.add(textAreaFactura);
 
@@ -222,7 +211,6 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
 
-       
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -250,7 +238,7 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentanaDeclaracion().setVisible(true);
-              
+
             }
         });
 
@@ -299,6 +287,7 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
         }
         System.out.println("");
         System.out.println("GRACIAS POR USAR NUESTRO SISTEMA :3");
+        ingresoDatos = true;
     }
 
     public static double ingresarSueldos(double sueldos[]) {
@@ -424,13 +413,12 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
     }
 
     public static String getTaxTable(int año) {
-          BufferedReader leer2;
-          String taxTable = "";
+        BufferedReader leer2;
+        String taxTable = "";
         try {
             leer2 = new BufferedReader(new FileReader("Tablas Impositivas 2023.csv"));
-             List<String[]> linea = new ArrayList<>();
-          
-        
+            List<String[]> linea = new ArrayList<>();
+
             String line;
             while ((line = leer2.readLine()) != null) {
                 taxTable += line + "\n";
@@ -450,9 +438,8 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(VentanaDeclaracion.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
 
-          return taxTable;
+        return taxTable;
     }
 
     public static void guardarReporte(String nombre, double totalIngresos, double totalDeducciones, double baseImponible, double impExcedentePagar, double impExcedente, double impBasico, double impTotal, double iess, double retornoImpuestos, double refund) {
@@ -507,9 +494,7 @@ public class VentanaDeclaracion extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelTitle;
-    private javax.swing.JLabel nameLabel;
     private java.awt.ScrollPane scrollPane1;
     private javax.swing.JTextArea textAreaFactura;
-    private java.awt.TextField textField1;
     // End of variables declaration//GEN-END:variables
 }
