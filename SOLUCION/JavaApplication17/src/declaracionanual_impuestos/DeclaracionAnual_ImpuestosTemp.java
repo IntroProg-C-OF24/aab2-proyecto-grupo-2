@@ -111,7 +111,7 @@ public static double ingresarSueldos(double[][][] sueldos, int taxpayerIndex) {
         iess = totalIngresos * 0.1145;
         totalIngresos -= iess;
     } catch (FileNotFoundException ex) {
-        Logger.getLogger(DeclaracionAnual_Impuestos.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(DeclaracionAnual_ImpuestosPlus.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     return totalIngresos;
